@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE validators PUBLIC  
+        "-//OpenSymphony Group//XWork Validator Config 1.0//EN"  
+        "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd"> 
+<validators> 
+  <!-- username字段校验 --> 
+  <field name="user.username"> 
+    <field-validator type="stringlength"> 
+      <param name="minLength">2</param> 
+      <param name="maxLength">10</param> 
+      <message>用户名长度为${minLength}到${maxLength}之间！</message>     
+    </field-validator> 
+    <field-validator type="requiredstring"> 
+          <message >用户名不能为空！</message> 
+    </field-validator> 
+  </field> 
+  <!-- password1字段校验 --> 
+  <field name="user.password"> 
+    <field-validator type="requiredstring"> 
+      <param name="trim">true</param> 
+      <message>错误,密码不能为空！</message>     
+    </field-validator> 
+    <field-validator type="stringlength"> 
+      <param name="minLength">2</param> 
+      <param name="maxLength">20</param> 
+      <message>用户密码长度为${minLength}到${maxLength}之间！</message>     
+    </field-validator> 
+ </field> 
+  <!-- password2字段校验 --> 
+  <field name="user.rpassword"> 
+    <field-validator type="requiredstring"> 
+      <param name="trim">true</param> 
+      <message>错误,确认密码不能为空！</message> 
+    </field-validator> 
+    <field-validator type="stringlength"> 
+      <param name="minLength">2</param> 
+      <param name="maxLength">20</param> 
+      <message>用户密码长度为${minLength}到${maxLength}之间！</message>     
+    </field-validator> 
+    <field-validator type="fieldexpression"> 
+       <param name="expression">user.password==user.rpassword</param> 
+       <message>两次输入密码不一样！</message> 
+    </field-validator> 
+  </field> 
+  <field name="user.email">
+<field-validator type="email"> 
+<message>电子邮件地址无效</message> 
+</field-validator> 
+  </field>
+  
+  <field name="user.phone"> 
+    <field-validator type="requiredstring"> 
+      <param name="trim">true</param> 
+      <message >错误,电话不能为空！</message>     
+    </field-validator> 
+    <field-validator type="stringlength"> 
+      <param name="minLength">7</param> 
+      <param name="maxLength">13</param> 
+      <message>用户密码长度为${minLength}到${maxLength}之间！</message>     
+    </field-validator> 
+ </field> 
+</validators> 
