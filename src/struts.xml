@@ -5,7 +5,7 @@
 <struts>
  <include file="struts-default.xml"/> 
  <include  file="com/hdfs/user/config/struts-user.xml"/>
- <include  file="com/hdfs/file/config/struts-file.xml"/>
+ <include  file="com/hdfs/file/config/struts-file1.xml"/>
 
 
 

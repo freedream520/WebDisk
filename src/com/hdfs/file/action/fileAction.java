@@ -2,11 +2,9 @@ package com.hdfs.file.action;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -227,6 +225,8 @@ public class fileAction extends BaseAction {
 			System.out.println("绝对路径："+dst.getAbsolutePath());
 			return "cover";
 		}
+		System.out.println(getUploadType());
+		System.out.println(getSafelevel());
 		if (getUploadType() != 0) { // 加密上传
 			/*
 			 * 判断是否第一次使用加密上传的功能 可以提取users表的public_key字段判断
@@ -255,8 +255,6 @@ public class fileAction extends BaseAction {
 			/*
 			 * 上传文件到hdfs
 			 */
-			Long fileSize = uploadFile.length();
-			
 			
 			dillResult result = fileservice.uploadFile(currentId, uploadFile,
 					this.getFilename(), memory, getSafelevel(), deadline);

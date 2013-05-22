@@ -7,6 +7,10 @@ package com.hdfs.file.bean;
  */
 public class Users implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long userId;
 	private String username;
 	private String password;

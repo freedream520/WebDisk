@@ -68,7 +68,7 @@
 					  									  var parentid=$(this).attr("parentid");  
 														  var hrefAddress=$(this).attr("hrefAddress");  
 														  var file_name=$(this).text(); 
-														  var user_id = "<%=session.getAttribute("userid")%>"
+														  var user_id = "<%=session.getAttribute("userid")%>";
 														  var userid = $(this).attr("userid");
 														  if (user_id == userid)
 															
@@ -84,7 +84,7 @@
 
 				document.write(tree);
 			</script>
-			</br> </br> </br>
+			<br> <br> <br>
 			<script>
 				tree1 = new dTree('tree1');
 				tree1.add(0, -1, "用户功能", "", "", "ifr", "", "", false);

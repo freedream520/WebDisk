@@ -8,7 +8,7 @@
 
 			<action name="listFile" class="fileAction" method="dolistFile">
 			<result name="success" >
-				/webDisk/disk.jsp
+				/webDisk/disk1.jsp
 			</result>
 			<result name="fail">
 				/webDisk/error.jsp
@@ -45,7 +45,7 @@
 		
 		<action name="listParentFile" class="fileAction" method="listParentFile">
 			<result name="success" >
-				/webDisk/disk.jsp
+				/webDisk/disk1.jsp
 			</result>
 			<result name="fail">
 				/error.jsp
@@ -86,7 +86,7 @@
 		
 		<action name="cover"  class="fileAction"  method="cover">
 			<result name="success" >
-				/webDisk/disk.jsp
+				/webDisk/disk1.jsp
 			</result>
 			<result name="generateKeyPair"  type="redirectAction">
 			<param name="actionName">generateKeyPair</param>

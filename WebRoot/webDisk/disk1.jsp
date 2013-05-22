@@ -9,6 +9,15 @@
 
 <link type="text/css" rel="stylesheet" href="../webDisk/css/webDisk.css" />
 <link id="artDialogSkin" href="../webDisk/skins/default.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="../webDisk/css/uploadify.css" />
+<link rel="stylesheet" href="../webDisk/css/jquery-ui.css" />
+<script src="/hdfs/webDisk/js/jquery-1.9.1.min.js"></script>
+<script src="/hdfs/webDisk/js/jquery.uploadify.min.js"></script>
+<script src="/hdfs/webDisk/js/jquery-ui.js"></script>
+<script src="/hdfs/webDisk/js/wd.js"></script>
+<script src="/hdfs/webDisk/js/artDialog.js"></script>
+<script src="/hdfs/webDisk/js/artDialog.plugins.min.js"></script>
+
 </head>
 
 <body>
@@ -37,6 +46,24 @@
 
 		</ul>
 	</div>
+	
+<div id="oDIVUploadFile" title="文件上传，可批量" style="display:none">
+ 上传方式：
+ <input type="radio" name="uploadType" checked value="0">普通上传
+ <input type="radio" name="uploadType" value="1">加密上传
+ <br>
+ 安全等级：
+ <input type="radio" name="safelevel" checked value="1">低
+ <input type="radio" name="safelevel"  value="2">中
+ <input type="radio" name="safelevel"  value="3">高
+ <br>
+ 截止日期(YYYY-MM-DD)
+ <input type="text" id="deadline" name="deadline" value="2015-01-01" onClick='jQuery(this).val("");'>
+ 
+ <input type="file" id="uploadFile" name="upload" />
+ <a href="javascript:$('#uploadFile').uploadify('upload','*')">开始上传</a>
+ 
+</div>
 
 
 	<div id="detailWin">
@@ -65,19 +92,13 @@
 		</ul>
 	</div>
 
-	<script type="text/javascript"
-		src="/hdfs/webDisk/js/jquery-1.3.1.min.js"></script>
 
-	<script type="text/javascript" src="/hdfs/webDisk/js/wd.js"></script>
-
-	<script type="text/javascript" src="/hdfs/webDisk/js/artDialog.js"></script>
-	<script src="/hdfs/webDisk/js/artDialog.plugins.min.js"></script>
 
 	<script>
 		$(function() {
 
 			function getParentId() {
-				var id = 0
+				var id = 0;
 				var last = $('#WDpath').find('li.filePath:last-child');
 				if (last.length == 1) {
 					id = last.attr('fileId');
@@ -91,7 +112,6 @@
 							'click',
 							function(event) {
 								//获取对象的坐标，让对话框在按钮附近弹出
-								var parentId = getParentId();
 								var _html = '<form id ="createDirForm" action="" method="post">'
 										+ '<label>目录名:</label>'
 										+'<input type="text" id="dirName" name="dirName" placeholder="New Dir"  required="required"></input><br>'
@@ -99,7 +119,6 @@
 										+ '<input type="hidden" name="parentID" id="parentID" value="'+parentId+'"></form>';
 								var _x = event.clientX;
 								var _y = event.clientY;
-								var _this = this;
 								art.dialog({
 									id : 'menu_4834783',
 									content : _html,
@@ -141,7 +160,7 @@
 				$('#searchFile').bind('click',function(event){
 	
 				//获取对象的坐标，让对话框在按钮附近弹出
-			var parentId = getParentId();
+				var parentId = getParentId();
 			var _html = '<form id ="createDirForm" action="" method="post">'
 						+'<label>输入文件名:</label><br>'
 						+'<input type="text" id="searchFileName" name="searchFileName" placeholder="File Name" required="required"></input><br>'
@@ -149,7 +168,6 @@
 						+'<input type="hidden" name="parentID" id="parentID" value="'+parentId+'"></form>';
 			var _x = event.clientX;
 			var _y = event.clientY;
-			var _this = this;
 			art.dialog({
 				id:'menu_4834783',
 				content:_html,
@@ -176,62 +194,85 @@
 		});
 							
 		/*----------------------------------------------------------------------------*/
-							
-			$('#upload')
-					.bind(
-							'click',
-							function(event) {
-								//获取对象的坐标，让对话框在按钮附近弹出
-								var parentId = getParentId();
-								var _x = event.clientX;
-								var _y = event.clientY;
-								var _this = this;
-								var userId = $('#userId').val();
-								var currentId = getParentId();
-								var rootid = $('#rootid').val();
-								var _html = '<form id ="uploadForm" action="uploadFile" method="post" enctype="multipart/form-data" >'
-										+ '<input type="file" id="uploadFile" name="uploadFile" required="required"/>'
-										+'<i></i>'
-										+ '</br>'
-										+ '上传方式：'
-										+ '<input type="radio" name="uploadType" checked value="0">普通上传</>'
-										+ '<input type="radio" name="uploadType" value="1">加密上传</>'
-										+ '</br>'
-										+ '安全等级：'
-										+ '<input type="radio" name="safelevel" checked value="1" >低</>'
-										+ '<input type="radio" name="safelevel" value="2">中</>'
-										+ '<input type="radio" name="safelevel" value="3">高</>'
-										+ '</br>'
-										+ '截止日期（YYYY-MM-DD）<input type="text" name="deadline" value="2014-01-01" onClick="jQuery(this).val(&quot;&quot;);"></>'
-										+ '<input type="hidden" name="currentId" value="'+currentId+'"/>'
-										+ '<input type="hidden" name="userId" value="'+userId+'" />'
-										+ '<input type="hidden" name="rootid" value="'+rootid+'" />'
-										+ '</form>';
-										
-										
-								artDialog({
-									id : 'menu_4834783',
-									content : _html,
-									left : _x + 10,
-									top : _y + 10,
-									title : '上传文件',
-									ok: function() {
-										var fileupload=document.getElementById("uploadFile");
-										var filename=fileupload.value;
-										if (filename=="") {
-											$("i").text("请选择文件！");
-											$("i").css("color","red");
-										}
-										else {
-									$('#uploadForm')[0].submit();
-										
-								}
-										return false;
-								}});
-								return false;
-							});
+	    var deadline = $('#deadline').val();
+	    var userId = $('#userId').val();
+	    var currentId = getParentId();
+	    var rootid = $('#rootid').val();
+	        $('#uploadFile').uploadify({
+	            'formData': {'uploadType':0,'safelevel':1,'userId':userId, 'currentId':currentId, 'rootid':rootid, 'deadline':deadline},
+	            'buttonText': '选择文件',
+	            'buttonClass': 'browser',
+	            'removeCompleted': false,
+	            'swf': '/hdfs/webDisk/swf/uploadify.swf', //进度条，Uploadify里面含有 
+	            'debug': false,
+	            'auto': false,
+	            'height': 20,
+	            'width': 70,
+	            'multi': true,
+	            'successTimeout': 99999,
+	            'uploader': 'uploadFile', //一般处理程序 
+	            'fileObjName': 'uploadFile',  //后台接受文件对象名，保持一致           
+	            'onUploadStart': function(file) {  //动态更新uploadType和safelevel属性
+	            var uploadType = GetRadioValue("uploadType");
+	            var safelevel = GetRadioValue("safelevel");
+	            //alert("uploadType: " + uploadType);
+	            //alert("safelevel: " + safelevel);
+	            $("#uploadFile").uploadify("settings",'formData',{'uploadType':uploadType,'safelevel':safelevel,'userId':userId, 'currentId':currentId, 'rootid':rootid, 'deadline':deadline});
+	            },
+	            'onQueueComplete' : function(queueData) {
+          //alert(queueData.uploadsSuccessful + ' files were successfully uploaded.');
+    	  if (queueData.uploadsErrored > 0) {
+    		  window.location.href="upload/error.jsp?errorNum="+ queueData.uploadsErrored;
+    	  }else {
+    	  window.location.href="/hdfs/webDisk/TestJsp.jsp";
+    	  }
+      },
+      'onSelectError': function(file, errorCode, errorMsg){ //file选择失败后触发
+          alert(errorMsg);
+      },
+      'onFallback': function(){ //flash报错触发
+          alert("请您先安装flash控件");
+      },
+      'onUploadSuccess': function(file, data, response){ //上传成功后触发
+          if("sizeError" == data){
+              alert("文件大小不能超过10M");
+          } else if("typeError" == data){
+              alert("不支持的文件类型");
+          }
+      }
+	        });
+	        
+	        $('#oDIVUploadFile').dialog({
+	            modal: true,
+	            height: 300,
+	            width: 470,
+	            autoOpen: false,
+	            close: function (event, ui) {
+	                $('a.ui-dialog-titlebar-close').show();
+	            }
+	        });
+	        $("#upload").click(function () {
+	            $("#oDIVUploadFile").dialog("open");
+	        });
+	    
+
 
 		});
+		
+			    //获取单选框的值
+	    function GetRadioValue(RadioName){
+    var obj;    
+    obj=document.getElementsByName(RadioName);
+    if(obj!=null){
+        var i;
+        for(i=0;i<obj.length;i++){
+            if(obj[i].checked){
+                return obj[i].value;            
+            }
+        }
+    }
+    return null;
+}
 	</script>
 
 </body>
